@@ -5,7 +5,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,19 +14,16 @@ import java.util.Date;
 public class Customer implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "cif_number")
-    @NotBlank
     private Long cifNumber;
 
     @Column(name = "first_name")
-    @NotBlank
     private String firstName;
 
     @Column(name = "last_name")
-    @NotBlank
     private String lastName;
 
     @Column(nullable = false, updatable = false, name = "created_at")

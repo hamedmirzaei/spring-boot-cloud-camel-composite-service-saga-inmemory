@@ -1,10 +1,12 @@
 package spring.boot.cloud.eurekaclient.controller;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.boot.cloud.eurekaclient.exception.ResourceNotFoundException;
 import spring.boot.cloud.eurekaclient.model.Account;
+import spring.boot.cloud.eurekaclient.model.external.Transaction;
 import spring.boot.cloud.eurekaclient.repository.AccountRepository;
 
 import javax.validation.Valid;
@@ -53,14 +55,13 @@ public class AccountController {
     }
 
     // Update an Account's Amount
-    @PutMapping("/accounts/{id}/{amount}")
-    public Account updateAccountAmount(@PathVariable(value = "id") Long accountId,
-                                       @PathVariable(value = "amount") Long amount) {
+    @PutMapping("/accounts")
+    public Account updateAccountAmount(@Valid @RequestBody Transaction transaction) {
 
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new ResourceNotFoundException("Account", "id", accountId));
+        Account account = accountRepository.findById(transaction.getAccountId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
 
-        account.setBalance(account.getBalance() + amount);
+        account.setBalance(account.getBalance() + transaction.getAmount());
 
         Account updatedAccount = accountRepository.save(account);
         return updatedAccount;

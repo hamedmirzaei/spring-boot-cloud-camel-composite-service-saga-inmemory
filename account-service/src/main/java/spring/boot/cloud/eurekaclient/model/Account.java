@@ -5,7 +5,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,19 +14,16 @@ import java.util.Date;
 public class Account implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "account_number")
-    @NotBlank
     private String accountNumber;
 
     @Column(name = "customer_id")
-    @NotBlank
     private Long customerId;
 
     @Column(name = "balance")
-    @NotBlank
     private Long balance;
 
     @Column(nullable = false, updatable = false, name = "created_at")
@@ -43,13 +39,13 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(@NotBlank String accountNumber, @NotBlank Long customerId, @NotBlank Long balance) {
+    public Account(String accountNumber, Long customerId, Long balance) {
         this.accountNumber = accountNumber;
         this.customerId = customerId;
         this.balance = balance;
     }
 
-    public Account(Long id, @NotBlank String accountNumber, @NotBlank Long customerId, @NotBlank Long balance) {
+    public Account(Long id, String accountNumber, Long customerId, Long balance) {
         this.id = id;
         this.accountNumber = accountNumber;
         this.customerId = customerId;
