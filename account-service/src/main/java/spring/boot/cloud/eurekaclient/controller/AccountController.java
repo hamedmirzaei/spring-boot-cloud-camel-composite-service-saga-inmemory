@@ -48,8 +48,14 @@ public class AccountController {
         return accountService.updateAccountAmount(transaction);
     }
 
+    // Update an Account's Status
+    @PutMapping("/accounts/complete")
+    public Account updateAccountStatus(@Valid @RequestBody Transaction transaction) {
+        return accountService.updateAccountStatus(transaction);
+    }
+
     // Rollback Update an Account's Amount
-    @PutMapping("/accounts/rollback/")
+    @PutMapping("/accounts/rollback")
     public Account rollbackUpdateAccountAmount(@Valid @RequestBody Transaction transaction) {
         return accountService.rollbackUpdateAccountAmount(transaction);
     }

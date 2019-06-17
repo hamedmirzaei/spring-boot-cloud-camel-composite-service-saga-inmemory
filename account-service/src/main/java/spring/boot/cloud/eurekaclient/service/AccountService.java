@@ -57,6 +57,17 @@ public class AccountService {
     }
 
     @Transactional
+    public Account updateAccountStatus(Transaction transaction) {
+        Account account = accountRepository.findById(transaction.getAccountId())
+                .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
+
+        account.setStatus(AccountStatus.IDEAL);
+
+        Account updatedAccount = accountRepository.save(account);
+        return updatedAccount;
+    }
+
+    @Transactional
     public Account rollbackUpdateAccountAmount(Transaction transaction) {
         Account account = accountRepository.findById(transaction.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
