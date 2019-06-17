@@ -6,4 +6,10 @@ import spring.boot.cloud.eurekaclient.model.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+
+    /*@Query ("update Account account set account.balance = account.balance + :amount, " +
+            "account.status = 'CHANGED' where account.id = :accountId")
+    public Account updateAccountBalanceByStatusAndAccountId(@Param("amount") Long amount,
+                                                            @Param("accountId") Long accountId);*/
+
 }

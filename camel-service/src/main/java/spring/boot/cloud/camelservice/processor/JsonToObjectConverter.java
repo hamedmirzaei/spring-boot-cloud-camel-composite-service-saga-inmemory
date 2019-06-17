@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import spring.boot.cloud.camelservice.model.Customer;
-import spring.boot.cloud.camelservice.model.Transaction;
+import spring.boot.cloud.camelservice.model.external.Customer;
+import spring.boot.cloud.camelservice.model.external.Transaction;
 
 import java.util.List;
 

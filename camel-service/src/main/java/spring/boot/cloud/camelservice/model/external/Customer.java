@@ -1,4 +1,4 @@
-package spring.boot.cloud.camelservice.model;
+package spring.boot.cloud.camelservice.model.external;
 
 import java.io.Serializable;
 import java.util.Date;

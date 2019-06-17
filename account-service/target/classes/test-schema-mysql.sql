@@ -13,6 +13,7 @@
 --   account_number varchar(255),
 --   customer_id BIGINT,
 --   balance BIGINT,
+--   status varchar(20),
 --   created_at TIMESTAMP,
 --   updated_at TIMESTAMP
 -- );

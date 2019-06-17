@@ -1,4 +1,4 @@
-package spring.boot.cloud.eurekaclient.model;
+package spring.boot.cloud.camelservice.model.external;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,36 +8,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
-@Table(name = "ACCOUNT")
-@EntityListeners(AuditingEntityListener.class)
 public class Account implements Serializable {
 
-    @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "account_number")
     private String accountNumber;
 
-    @Column(name = "customer_id")
     private Long customerId;
 
-    @Column(name = "balance")
     private Long balance;
 
-    @Column(name = "status")
     private String status;
-
-    @Column(nullable = false, updatable = false, name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(nullable = false, name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
 
     public Account() {
     }
