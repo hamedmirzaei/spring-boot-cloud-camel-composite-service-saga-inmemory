@@ -1,29 +1,35 @@
 from locust import HttpLocust, TaskSet, task
 import json
+import random
 
 class UserBehavior(TaskSet):
+
+    id = 0 # transaction id of last record in db
+
     def on_start(self):
         """ on_start is called when a Locust start before any task is scheduled """
-        self.login()
+        self.log_in()
 
     def on_stop(self):
         """ on_stop is called when the TaskSet is stopping """
-        self.logout()
+        self.log_out()
 
-    def login(self):
+    def log_in(self):
         print("login")
-        #self.client.post("/login", {"username":"ellen_key", "password":"education"})
 
-    def logout(self):
+    def log_out(self):
         print("logout")
-        #self.client.post("/logout", {"username":"ellen_key", "password":"education"})
 
     @task(1)
     def index(self):
-        headers = {'content-type': 'application/json'}
-        payload = {"id":"5", "accountId": "1","amount": "2000"}
-
-        self.client.post("/make-transaction", data=json.dumps(payload), headers=headers)
+        amount = random.randint(1000,50001) # between 1000 and 50000
+        accountId = random.randint(1,3) # between 1 and 2
+        UserBehavior.id = UserBehavior.id + 1 # transaction id increment
+        headers = {'content-type': 'application/json'} # headers to post request as json
+        payload = {"id":str(UserBehavior.id), "accountId": str(accountId),"amount": str(amount)} # transaction json format
+        #print(UserBehavior.id)
+        #print(payload)
+        self.client.post("/make-transaction", data=json.dumps(payload), headers=headers) # post request
 
     # @task(1)
     # def index(self):
