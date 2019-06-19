@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/account-service/account-service.iml" filepath="$PROJECT_DIR$/account-service/account-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/camel-service/camel-service.iml" filepath="$PROJECT_DIR$/camel-service/camel-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/spring-boot-cloud-camel-composite-service.iml" filepath="$PROJECT_DIR$/spring-boot-cloud-camel-composite-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-cloud-camel-composite-service-saga-inmemory.iml" filepath="$PROJECT_DIR$/spring-boot-cloud-camel-composite-service-saga-inmemory.iml" />
       <module fileurl="file://$PROJECT_DIR$/transaction-service/transaction-service.iml" filepath="$PROJECT_DIR$/transaction-service/transaction-service.iml" />
     </modules>
   </component>

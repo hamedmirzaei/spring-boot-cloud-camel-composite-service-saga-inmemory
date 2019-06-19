@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>spring.boot.cloud.camel.composite.service</groupId>
-        <artifactId>spring-boot-cloud-camel-composite-service</artifactId>
+        <artifactId>spring-boot-cloud-camel-composite-service-saga-inmemory</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>camel-service</artifactId>

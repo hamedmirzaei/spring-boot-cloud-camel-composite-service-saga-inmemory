@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>spring.boot.cloud.camel.composite.service</groupId>
-    <artifactId>spring-boot-cloud-camel-composite-service</artifactId>
+    <artifactId>spring-boot-cloud-camel-composite-service-saga-inmemory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-cloud-camel-composite-service</name>
+    <name>spring-boot-cloud-camel-composite-service-saga-inmemory</name>
     <description>Demo project for Spring Boot + Spring Cloud + Apache Camel + Composite Service</description>
 
     <modules>

@@ -9,7 +9,7 @@
         <module name="account-service" />
         <module name="camel-service" />
         <module name="eureka-server" />
-        <module name="spring-boot-cloud-camel-composite-service" />
+        <module name="spring-boot-cloud-camel-composite-service-saga-inmemory" />
         <module name="transaction-service" />
       </profile>
     </annotationProcessing>
@@ -17,8 +17,8 @@
       <module name="account-service" target="1.8" />
       <module name="camel-service" target="1.8" />
       <module name="eureka-server" target="1.8" />
-      <module name="spring-boot-cloud-camel-composite-service" target="1.8" />
-      <module name="transaction-service" target="1.8" />
+      <module name="spring-boot-cloud-camel-composite-service-saga-inmemory" target="1.8" />
+      <module name="transaction-service" target="1.5" />
       <module name="ui-feign-service" target="1.5" />
       <module name="ui-service" target="1.8" />
     </bytecodeTargetLevel>
