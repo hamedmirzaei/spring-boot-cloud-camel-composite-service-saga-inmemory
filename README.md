@@ -11,6 +11,7 @@ services using `Apache Camel` and `Spring Cloud`
 * [ORM] `Hibernate` under abstraction of `Spring Data JPA`
 * [Database] `MySQL on port 3306`
 * [Tool] [`Locust`](https://locust.io/): Tool for load test
+* [Library] [`DataFactory`](https://mvnrepository.com/artifact/org.fluttercode.datafactory/datafactory/0.8): Library for generating fake data
 
 
 # How it works

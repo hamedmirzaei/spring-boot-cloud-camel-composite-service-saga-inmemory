@@ -18,7 +18,7 @@
       <module name="camel-service" target="1.8" />
       <module name="eureka-server" target="1.8" />
       <module name="spring-boot-cloud-camel-composite-service-saga-inmemory" target="1.8" />
-      <module name="transaction-service" target="1.5" />
+      <module name="transaction-service" target="1.8" />
       <module name="ui-feign-service" target="1.5" />
       <module name="ui-service" target="1.8" />
     </bytecodeTargetLevel>
