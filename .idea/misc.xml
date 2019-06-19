@@ -12,6 +12,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/ui-feign-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ui-service/pom.xml" />
       </set>
     </option>
   </component>

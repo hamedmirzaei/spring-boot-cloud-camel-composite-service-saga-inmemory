@@ -27,7 +27,7 @@ public class DbInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         DataFactory df = new DataFactory();
-        for (Long i = 1L; i < 40L; i++) {
+        for (Long i = 1L; i <= 40L; i++) {
             Customer customer = new Customer();
             customer.setId(i);
             customer.setFirstName(df.getFirstName());
@@ -36,11 +36,11 @@ public class DbInitializer implements CommandLineRunner {
             customerService.save(customer);
         }
 
-        for (Long i = 1L; i < 500L; i++) {
+        for (Long i = 1L; i <= 100L; i++) {
             Account account = new Account();
             account.setId(i);
             account.setAccountNumber(df.getNumberText(13));
-            account.setCustomerId(1L);
+            account.setCustomerId(Long.parseLong(df.getNumberBetween(1, 41) + ""));
             account.setBalance(Long.parseLong(df.getNumberBetween(1000000, 4000000) + ""));
             account.setStatus(AccountStatus.IDEAL);
             accountService.save(account);

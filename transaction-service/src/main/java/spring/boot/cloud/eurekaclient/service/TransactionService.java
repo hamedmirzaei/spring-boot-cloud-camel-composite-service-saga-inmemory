@@ -44,8 +44,10 @@ public class TransactionService {
     @Transactional
     public void delete(Long transactionId) {
         Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", transactionId));
-        transactionRepository.delete(transaction);
+                .orElse(null);
+                //.orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", transactionId));
+        if (transaction != null)
+            transactionRepository.delete(transaction);
     }
 
 }

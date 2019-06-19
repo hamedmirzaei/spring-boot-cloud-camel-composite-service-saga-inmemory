@@ -72,8 +72,8 @@ public class AccountService {
         Account account = accountRepository.findById(transaction.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
 
-        if (account.getStatus().equals(AccountStatus.IDEAL))
-            return account;
+        //if (account.getStatus().equals(AccountStatus.IDEAL))
+        //    return account;
 
         account.setBalance(account.getBalance() - transaction.getAmount());
         account.setStatus(AccountStatus.IDEAL);

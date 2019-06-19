@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-boot-cloud-camel-composite-service.iml" filepath="$PROJECT_DIR$/spring-boot-cloud-camel-composite-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/transaction-service/transaction-service.iml" filepath="$PROJECT_DIR$/transaction-service/transaction-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ui-service/ui-service.iml" filepath="$PROJECT_DIR$/ui-service/ui-service.iml" />
     </modules>
   </component>
 </project>

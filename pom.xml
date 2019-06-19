@@ -20,7 +20,6 @@
         <module>eureka-server</module>
         <module>account-service</module>
         <module>transaction-service</module>
-        <module>ui-service</module>
         <module>camel-service</module>
     </modules>
 

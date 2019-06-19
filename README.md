@@ -1,38 +1,46 @@
-# Spring Boot + Spring Cloud
+# Spring Boot + Spring Data + Apache Camel (Service Composition Example)
 
-This is a simple example to show you how Spring Cloud works with Spring Boot.
+This is a simple example to show you how to implement a `Saga EIP` over simple 
+services using `Apache Camel` and `Spring Cloud`
 
 # Libraries and Tools
 * [Module] [`Spring Boot`](https://spring.io/projects/spring-boot)
 * [Module] [`Spring Cloud`](https://spring.io/projects/spring-cloud)
-* [Module] `Spring Web`
-* [Module] `Eureka Server/Client`
-* [Library for auto-generating getters, setters, constructors and others] [`Lombok`](https://projectlombok.org/)
-* [Library] `Thymeleaf`
-* [Database] `H2`
+* [Module] `Spring Data`
+* [Library] [`Apache Camel`](https://camel.apache.org/)
+* [ORM] `Hibernate` under abstraction of `Spring Data JPA`
+* [Database] `MySQL on port 3306`
+* [Tool] [`Locust`](https://locust.io/): Tool for load test
+
 
 # How it works
 
-![Architecture](imgs/spring-cloud-eureka.png)
+Bellow is the relationship between different services provided in the example.
 
-This is a simple demo to explain how `Spring Cloud` works. In order to run it, you should first start 
-`eureka-server` module which is the _Service Registry_ and other services need to be registered there 
-(monitor it via [http://localhost:8761/](http://localhost:8761/)).
+![Architecture](imgs/camel-cloud-saga-arch.png)
 
-After that, start `eureka-client-service` module which is a micro-service in our example. 
-It registered in `eureka-server` with id `spring-cloud-eureka-client` and serves the GET 
-requests to `/customers` on port 8768. Use [http://localhost:8768/customers](http://localhost:8768/customers)
-to verify the service. 
 
-Next, you should start the `ui-service` module. It will be start on port `8766` and registered in 
-`eureka-server` with id `spring-cloud-ui-service`. It consumes the content provided by `eureka-client-service` 
-using eureka discovery mechanism. Use [http://localhost:8766/customers](http://localhost:8766/customers) to see the result.
+This is a common and simple banking business flow. There is a simple `Customer` and `Account` service. Each customer is 
+connected to some accounts. Besides for each account, there is some number of transactions over it which is provided and
+handled by `Transaction` service. 
+There is also a `Camel` service which tries to implement `Saga EIP` over `Account` and `Transaction` services.
+All these services are registered in `Eureka` as the service registry and discovery framework.
 
-Another module is `ui-feign-service` which uses `Feign` and registered in `eureka-server` with id 
-`spring-cloud-ui-feign-service`. Think of Feign as discovery-aware _Spring RestTemplate_ using 
-interfaces to communicate with endpoints. This interfaces will be automatically implemented at 
-runtime and instead of service-urls, it is using service-names. it will be start on port `8767` and 
-consumes content provided by `eureka-client-service` on `/customers` address. In case which `eureka-client-service` 
-is down, it uses fallback mechanism and returns an `Unknown` record. 
-Use [http://localhost:8767/customers](http://localhost:8767/customers) to see the result.
 
+# How to run
+* Start `eureka-service` module. It can be verified using url [http://localhost:8761/](http://localhost:8761/).
+* Start `account-service` module. It can be verified using url [http://localhost:8762/accounts](http://localhost:8762/accounts).
+* Start `transaction-service` module. It can be verified using url [http://localhost:8763/transactions](http://localhost:8763/transactions).
+* Start `camel-service` module. It can be verified using url [http://localhost:8764/health](http://localhost:8764/health).
+
+# Load Test
+You should have `Python` and `Locust` installed on your system to do the load test part. To do the load test
+simply run the following through the terminal in project root path:
+```
+cd \path\to\project\spring-boot-cloud-camel-composite-service 
+\path\to\locust\locust.exe -f load-test\locustfile.py
+```
+
+This starts the locust on  [http://localhost:8089](http://localhost:8089/)
+You can set number of users and catch size and then start the test
+It sends a lot of `Http.POST` requests to `http://localhost:8764/make-transactions`
