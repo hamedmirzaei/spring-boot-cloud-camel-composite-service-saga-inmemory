@@ -5,7 +5,6 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.http.common.HttpMethods;
-import org.apache.camel.http.common.HttpOperationFailedException;
 import org.apache.camel.impl.saga.InMemorySagaService;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spring.SpringRouteBuilder;
@@ -36,84 +35,12 @@ public class CamelServiceApplication extends SpringRouteBuilder {
     @Autowired
     CamelContext camelContext;
 
-    /*@Autowired
-    GroupedExchangeAggregationStrategy groupedExchangeAggregationStrategy;
-
-    @Autowired
-    JsonToObjectConverter jsonToObjectConverter;*/
-
     @Override
     public void configure() throws Exception {
 
         camelContext.addService(new InMemorySagaService());
         camelContext.getExecutorServiceManager().getDefaultThreadPoolProfile().setMaxQueueSize(-1); // default id is defaultThreadPoolProfile
         restConfiguration().port(8764).host("localhost");
-
-
-        /*rest().description("transacted multi-service call")
-                .consumes("application/json").produces("application/json")
-                .post("/make-transaction")
-                .outType(String.class).type(Transaction.class)
-                .route()
-                .removeHeader("CamelHttp*")
-                .transacted(PROPAGATION_REQUIRED_BEAN_NAME)
-                .to("direct:add-transaction")
-                .to("direct:update-account")
-                .end();
-
-        from("direct:update-account")
-                .log("Start of direct:update-account with body: ${body}")
-                .removeHeader("CamelHttp*")
-                .removeHeader(Exchange.HTTP_PATH)
-                .removeHeader(Exchange.HTTP_URI)
-                .setHeader(Exchange.HTTP_METHOD, constant("PUT"))
-                .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts")
-                .convertBodyTo(String.class)
-                .process(new Processor() {
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        throw new IllegalArgumentException("################### " + exchange.getIn().getBody());
-                    }
-                })
-                .log("End of direct:update-account with body: ${body}");
-
-
-        from("direct:add-transaction")
-                .log("Start of direct:add-transaction with body: ${body}")
-                .removeHeader("CamelHttp*")
-                .removeHeader(Exchange.HTTP_PATH)
-                .removeHeader(Exchange.HTTP_URI)
-                .setHeader(Exchange.HTTP_METHOD, constant("POST"))
-                .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions")
-                .convertBodyTo(String.class)
-                .log("End of direct:add-transaction with body: ${body}");*/
-
-
-        /*rest().description("Camel rest service")
-                .consumes("application/json").produces("application/json")
-                .get("/customers")
-                .description("get customers").outType(String.class)
-                .route()
-                .enrich("direct:customers", groupedExchangeAggregationStrategy)
-                .enrich("direct:transactions", groupedExchangeAggregationStrategy)
-                .process(jsonToObjectConverter)
-                .endRest();
-
-        from("direct:customers")
-                .removeHeader("CamelHttp*")
-                .removeHeader(Exchange.HTTP_PATH)
-                .removeHeader(Exchange.HTTP_URI)
-                .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/customers")
-                .convertBodyTo(String.class)
-                .log("customer-service : ${body}");
-
-        from("direct:transactions")
-                .removeHeader("CamelHttp*")
-                .removeHeader(Exchange.HTTP_PATH)
-                .removeHeader(Exchange.HTTP_URI)
-                .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions")
-                .convertBodyTo(String.class)
-                .log("transaction-service : ${body}");*/
 
         rest("/health").description("Camel rest service")
                 .get().description("health check")
@@ -130,7 +57,7 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .saga()
                 .option("tnx", simple("${body}"))
                 .compensation("direct:cancel-transaction")
-                //.completion("direct:complete-transaction")
+                .completion("direct:complete-transaction")
                 .timeout(2, TimeUnit.MINUTES)
                 .multicast()
                 .parallelProcessing()
@@ -153,7 +80,6 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
-                .multicast().parallelProcessing()
                 .to("direct:rollback-update-account")
                 .to("direct:rollback-add-transaction")
                 .log("End of direct:cancel-transaction with body: ${body}");
@@ -191,10 +117,7 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.PUT))
-                //.doTry()
-                    .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts/rollback")
-                //.doCatch(HttpOperationFailedException.class)
-                //.endDoTry();
+                .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts/rollback")
                 .convertBodyTo(String.class)
                 .log("End of direct:rollback-update-account with body: ${body}");
 
@@ -213,10 +136,11 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                         exchange.getIn().setHeader("random-x", new Random(System.currentTimeMillis()).nextInt(100));
                     }
                 })
-                .log("################################ random is: ${header[random-x]}")
+                .log("################################ random-x is: ${header[random-x]}")
                 .choice()
                     .when(header("random-x").isGreaterThan(85))
-                        .throwException(new RuntimeException("Random failure during direct:add-transaction"))
+                        .throwException(new RuntimeException("Random-x failure during direct:add-transaction"))
+                .end()
                 .log("End of direct:add-transaction with body: ${body}");
 
         from("direct:rollback-add-transaction")
@@ -229,48 +153,9 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.DELETE))
                 .setHeader("id", simple("${body.id}"))
                 .setBody(simple(""))
-                //.doTry()
-                    .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions/${header[id]}")
-                //.doCatch(HttpOperationFailedException.class)
-                //.endDoTry();
+                .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions/${header[id]}")
                 .convertBodyTo(String.class)
                 .log("End of direct:rollback-add-transaction with body: ${body}");
 
     }
-
-    /*@Bean
-    public GroupedExchangeAggregationStrategy groupedExchangeAggregationStrategy() {
-        return new GroupedExchangeAggregationStrategy();
-    }
-
-    @Bean
-    public JsonToObjectConverter jsonToObjectConverter() {
-        return new JsonToObjectConverter();
-    }*/
-
-    /*@Bean ("transactionManager")
-    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-        transactionManager.setDataSource(dataSource);
-        return transactionManager;
-    }
-
-    private final String PROPAGATION_MANDATORY_BEAN_NAME = "PROPAGATION_MANDATORY_BEAN";
-    private final String PROPAGATION_REQUIRED_BEAN_NAME = "PROPAGATION_REQUIRED_BEAN";
-
-    @Bean(PROPAGATION_MANDATORY_BEAN_NAME)
-    public SpringTransactionPolicy propagationMandatoryPolicy(PlatformTransactionManager transactionManager) {
-        SpringTransactionPolicy springTransactionPolicy = new SpringTransactionPolicy();
-        springTransactionPolicy.setTransactionManager(transactionManager);
-        springTransactionPolicy.setPropagationBehaviorName("PROPAGATION_MANDATORY");
-        return springTransactionPolicy;
-    }
-
-    @Bean(PROPAGATION_REQUIRED_BEAN_NAME)
-    public SpringTransactionPolicy propagationRequiredPolicy(PlatformTransactionManager transactionManager) {
-        SpringTransactionPolicy springTransactionPolicy = new SpringTransactionPolicy();
-        springTransactionPolicy.setTransactionManager(transactionManager);
-        springTransactionPolicy.setPropagationBehaviorName("PROPAGATION_REQUIRED");
-        return springTransactionPolicy;
-    }*/
 }

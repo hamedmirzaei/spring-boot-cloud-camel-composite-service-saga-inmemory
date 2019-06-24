@@ -21,6 +21,9 @@
         <module>account-service</module>
         <module>transaction-service</module>
         <module>camel-service</module>
+        <module>bank-a-service</module>
+        <module>bank-b-service</module>
+        <module>camel-transfer-service</module>
     </modules>
 
     <properties>

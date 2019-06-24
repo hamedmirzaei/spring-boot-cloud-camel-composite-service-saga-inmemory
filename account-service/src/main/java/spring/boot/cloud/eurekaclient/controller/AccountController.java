@@ -51,7 +51,7 @@ public class AccountController {
     // Update an Account's Status
     @PutMapping("/accounts/complete")
     public Account updateAccountStatus(@Valid @RequestBody Transaction transaction) {
-        return accountService.updateAccountStatus(transaction);
+        return accountService.completeUpdateAccountAmount(transaction);
     }
 
     // Rollback Update an Account's Amount

@@ -7,7 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="account-service" />
+        <module name="bank-a-service" />
+        <module name="bank-b-service" />
         <module name="camel-service" />
+        <module name="camel-transfer-service" />
         <module name="eureka-server" />
         <module name="spring-boot-cloud-camel-composite-service-saga-inmemory" />
         <module name="transaction-service" />
@@ -15,7 +18,10 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="account-service" target="1.8" />
+      <module name="bank-a-service" target="1.8" />
+      <module name="bank-b-service" target="1.8" />
       <module name="camel-service" target="1.8" />
+      <module name="camel-transfer-service" target="1.8" />
       <module name="eureka-server" target="1.8" />
       <module name="spring-boot-cloud-camel-composite-service-saga-inmemory" target="1.8" />
       <module name="transaction-service" target="1.8" />

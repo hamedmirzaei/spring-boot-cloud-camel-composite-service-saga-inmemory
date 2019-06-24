@@ -46,7 +46,7 @@ public class AccountService {
 
     @Transactional
     public Account updateAccountAmount(Transaction transaction) {
-        Account account = accountRepository.findById(transaction.getAccountId())
+        Account account = accountRepository.findByIdAndStatus(transaction.getAccountId(), AccountStatus.IDEAL)
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
 
         account.setBalance(account.getBalance() + transaction.getAmount());
@@ -57,7 +57,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Account updateAccountStatus(Transaction transaction) {
+    public Account completeUpdateAccountAmount(Transaction transaction) {
         Account account = accountRepository.findById(transaction.getAccountId())
                 .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
 
@@ -69,12 +69,11 @@ public class AccountService {
 
     @Transactional
     public Account rollbackUpdateAccountAmount(Transaction transaction) {
-        Account account = accountRepository.findById(transaction.getAccountId())
-                .orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
-
-        //if (account.getStatus().equals(AccountStatus.IDEAL))
-        //    return account;
-
+        Account account = accountRepository.findByIdAndStatus(transaction.getAccountId(), AccountStatus.CHANGED)
+                .orElse(null);
+                //.orElseThrow(() -> new ResourceNotFoundException("Account", "id", transaction.getAccountId()));
+        if (account == null)
+            return null;
         account.setBalance(account.getBalance() - transaction.getAmount());
         account.setStatus(AccountStatus.IDEAL);
 
