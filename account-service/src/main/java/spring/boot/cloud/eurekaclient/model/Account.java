@@ -29,6 +29,9 @@ public class Account implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "last_transaction_id")
+    private Long lastTransactionId;
+
     @Column(nullable = false, updatable = false, name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -42,19 +45,21 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(String accountNumber, Long customerId, Long balance, String status) {
+    public Account(String accountNumber, Long customerId, Long balance, String status, Long lastTransactionId) {
         this.accountNumber = accountNumber;
         this.customerId = customerId;
         this.balance = balance;
         this.status = status;
+        this.lastTransactionId = lastTransactionId;
     }
 
-    public Account(Long id, String accountNumber, Long customerId, Long balance, String status) {
+    public Account(Long id, String accountNumber, Long customerId, Long balance, String status, Long lastTransactionId) {
         this.id = id;
         this.accountNumber = accountNumber;
         this.customerId = customerId;
         this.balance = balance;
         this.status = status;
+        this.lastTransactionId = lastTransactionId;
     }
 
     public Long getId() {
@@ -97,6 +102,14 @@ public class Account implements Serializable {
         this.status = status;
     }
 
+    public Long getLastTransactionId() {
+        return lastTransactionId;
+    }
+
+    public void setLastTransactionId(Long lastTransactionId) {
+        this.lastTransactionId = lastTransactionId;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -105,6 +118,9 @@ public class Account implements Serializable {
                 ", customerId=" + customerId +
                 ", balance=" + balance +
                 ", status='" + status + '\'' +
+                ", lastTransactionId=" + lastTransactionId +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

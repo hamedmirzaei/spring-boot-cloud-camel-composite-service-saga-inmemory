@@ -14,6 +14,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     public Account updateAccountBalanceByStatusAndAccountId(@Param("amount") Long amount,
                                                             @Param("accountId") Long accountId);*/
 
+    public Optional<Account> findByIdAndStatusAndLastTransactionId(Long id, String status, Long lastTransactionId);
+
     public Optional<Account> findByIdAndStatus(Long id, String status);
 
 }

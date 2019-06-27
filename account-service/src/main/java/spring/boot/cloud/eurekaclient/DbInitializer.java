@@ -36,13 +36,14 @@ public class DbInitializer implements CommandLineRunner {
             customerService.save(customer);
         }
 
-        for (Long i = 1L; i <= 100L; i++) {
+        for (Long i = 1L; i <= 2000L; i++) {
             Account account = new Account();
             account.setId(i);
             account.setAccountNumber(df.getNumberText(13));
             account.setCustomerId(Long.parseLong(df.getNumberBetween(1, 41) + ""));
             account.setBalance(Long.parseLong(df.getNumberBetween(1000000, 4000000) + ""));
             account.setStatus(AccountStatus.IDEAL);
+            account.setLastTransactionId(0L);
             accountService.save(account);
         }
     }

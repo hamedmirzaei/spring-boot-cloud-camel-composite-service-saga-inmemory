@@ -138,7 +138,7 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 })
                 .log("################################ random-x is: ${header[random-x]}")
                 .choice()
-                    .when(header("random-x").isGreaterThan(85))
+                    .when(header("random-x").isGreaterThan(100))
                         .throwException(new RuntimeException("Random-x failure during direct:add-transaction"))
                 .end()
                 .log("End of direct:add-transaction with body: ${body}");
