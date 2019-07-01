@@ -24,7 +24,7 @@ public class TransactionController {
     private String portNumber;
 
     // Health Check
-    @GetMapping("/health")
+    @GetMapping("/transactions/health")
     public ResponseEntity<String> healthCheck() {
         return ResponseEntity.ok("Health Check From " + appName + ":"  + portNumber);
     }

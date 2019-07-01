@@ -26,7 +26,6 @@ import java.util.concurrent.TimeUnit;
 public class CamelServiceInstance2Application extends SpringRouteBuilder {
 
     private final String ACCOUNT_EUREKA_SERVICE_NAME = "account-service";
-    private final String CUSTOMER_EUREKA_SERVICE_NAME = "account-service";
     private final String TRANSACTION_EUREKA_SERVICE_NAME = "transaction-service";
 
     public static void main(String[] args) {
@@ -52,7 +51,32 @@ public class CamelServiceInstance2Application extends SpringRouteBuilder {
         rest("/health").description("Camel rest service")
                 .get().description("health check")
                 .route()
-                .transform().constant("<html><head><title>Health Check From " + appName +":" + portNumber +"</title></head><body>OK</body></html>");
+                .removeHeader("CamelHttp*")
+                .removeHeader(Exchange.HTTP_PATH)
+                .removeHeader(Exchange.HTTP_URI)
+                .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts/health")
+                .convertBodyTo(String.class)
+                .log("${body}")
+                .process(new Processor() {
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        exchange.getIn().setHeader("ahc", exchange.getIn().getBody());
+                    }
+                })
+                .removeHeader("CamelHttp*")
+                .removeHeader(Exchange.HTTP_PATH)
+                .removeHeader(Exchange.HTTP_URI)
+                .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions/health")
+                .convertBodyTo(String.class)
+                .log("${body}")
+                .process(new Processor() {
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        exchange.getIn().setHeader("thc", exchange.getIn().getBody());
+                    }
+                })
+                .transform().simple("<html><head><title>Health Check</title></head><body>" +
+                "\nHealth Check From " + appName + ":" + portNumber + "\n${header[ahc]}\n${header[thc]}\n</body></html>");
 
 
         rest().description("Camel rest service")
