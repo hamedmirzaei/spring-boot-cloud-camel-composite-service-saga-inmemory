@@ -23,14 +23,14 @@ import java.util.concurrent.TimeUnit;
 @EnableDiscoveryClient
 @SpringBootApplication
 @Slf4j
-public class CamelServiceApplication extends SpringRouteBuilder {
+public class CamelServiceInstance2Application extends SpringRouteBuilder {
 
     private final String ACCOUNT_EUREKA_SERVICE_NAME = "account-service";
     private final String CUSTOMER_EUREKA_SERVICE_NAME = "account-service";
     private final String TRANSACTION_EUREKA_SERVICE_NAME = "transaction-service";
 
     public static void main(String[] args) {
-        SpringApplication.run(CamelServiceApplication.class, args);
+        SpringApplication.run(CamelServiceInstance2Application.class, args);
     }
 
     @Autowired
@@ -47,7 +47,7 @@ public class CamelServiceApplication extends SpringRouteBuilder {
 
         camelContext.addService(new InMemorySagaService());
         camelContext.getExecutorServiceManager().getDefaultThreadPoolProfile().setMaxQueueSize(-1); // default id is defaultThreadPoolProfile
-        restConfiguration().port(8764);
+        restConfiguration().port(8770);
 
         rest("/health").description("Camel rest service")
                 .get().description("health check")
@@ -145,8 +145,8 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 })
                 .log("################################ random-x is: ${header[random-x]}")
                 .choice()
-                    .when(header("random-x").isGreaterThan(100))
-                        .throwException(new RuntimeException("Random-x failure during direct:add-transaction"))
+                .when(header("random-x").isGreaterThan(100))
+                .throwException(new RuntimeException("Random-x failure during direct:add-transaction"))
                 .end()
                 .log("End of direct:add-transaction with body: ${body}");
 

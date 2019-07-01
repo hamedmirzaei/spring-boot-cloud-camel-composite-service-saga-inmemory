@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
+        <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -21,7 +21,9 @@
         <module>account-service</module>
         <module>account-service-instance2</module>
         <module>transaction-service</module>
+        <module>transaction-service-instance2</module>
         <module>camel-service</module>
+        <module>camel-service-instance2</module>
         <module>bank-a-service</module>
         <module>bank-b-service</module>
         <module>camel-transfer-service</module>
