@@ -9,6 +9,7 @@ import org.apache.camel.impl.saga.InMemorySagaService;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -34,12 +35,18 @@ public class CamelTransferServiceApplication extends SpringRouteBuilder {
     @Autowired
     CamelContext camelContext;
 
+    @Value("${spring.application.name}")
+    private String appName;
+
+    @Value("${server.port}")
+    private String portNumber;
+
     @Override
     public void configure() throws Exception {
 
         camelContext.addService(new InMemorySagaService());
         camelContext.getExecutorServiceManager().getDefaultThreadPoolProfile().setMaxQueueSize(-1); // default id is defaultThreadPoolProfile
-        restConfiguration().port(8767).host("localhost");
+        restConfiguration().port(Integer.parseInt(portNumber));
 
         rest("/health").description("Camel transfer service")
                 .get().description("health check")

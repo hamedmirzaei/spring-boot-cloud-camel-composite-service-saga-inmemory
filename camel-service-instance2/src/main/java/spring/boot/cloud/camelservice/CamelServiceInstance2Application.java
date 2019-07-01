@@ -47,7 +47,7 @@ public class CamelServiceInstance2Application extends SpringRouteBuilder {
 
         camelContext.addService(new InMemorySagaService());
         camelContext.getExecutorServiceManager().getDefaultThreadPoolProfile().setMaxQueueSize(-1); // default id is defaultThreadPoolProfile
-        restConfiguration().port(8770);
+        restConfiguration().port(Integer.parseInt(portNumber));
 
         rest("/health").description("Camel rest service")
                 .get().description("health check")

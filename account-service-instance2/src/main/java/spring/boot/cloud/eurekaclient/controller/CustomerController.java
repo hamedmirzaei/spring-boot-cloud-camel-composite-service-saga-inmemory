@@ -1,6 +1,7 @@
 package spring.boot.cloud.eurekaclient.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.boot.cloud.eurekaclient.exception.ResourceNotFoundException;
@@ -16,6 +17,18 @@ public class CustomerController {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Value("${spring.application.name}")
+    private String appName;
+
+    @Value("${server.port}")
+    private String portNumber;
+
+    // Health Check
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Health Check From " + appName + ":"  + portNumber);
+    }
 
     // Get All Customers
     @GetMapping("/customers")
