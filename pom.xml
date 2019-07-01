@@ -19,6 +19,7 @@
     <modules>
         <module>eureka-server</module>
         <module>account-service</module>
+        <module>account-service-instance2</module>
         <module>transaction-service</module>
         <module>camel-service</module>
         <module>bank-a-service</module>
