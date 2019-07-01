@@ -24,6 +24,7 @@
         <module>bank-a-service</module>
         <module>bank-b-service</module>
         <module>camel-transfer-service</module>
+        <module>zuul-server</module>
     </modules>
 
     <properties>
