@@ -96,6 +96,8 @@ This service has the same name as the `account-service` when he wants to registe
 ![Architecture](imgs/camel-cloud-saga-arch-zuul.png)
 
 ### How to run
+* Before all you need to setup a `MySQL` database and create a schema `camel_schema`. It sould listen on default port `3306` with
+username/password as `root/root`. Or you may want to change all the `application.properties` files to your connection url.
 * Start `eureka-server` module. It can be verified using url [http://localhost:8761/](http://localhost:8761/).
 * Start `account-service` module. It can be verified using url [http://localhost:8762/api/accounts/health](http://localhost:8762/api/accounts/health).
 * Start `transaction-service` module. It can be verified using url [http://localhost:8763/api/transactions/health](http://localhost:8763/api/transactions/health).
