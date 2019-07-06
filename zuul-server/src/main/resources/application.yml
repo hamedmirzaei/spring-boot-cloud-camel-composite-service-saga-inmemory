@@ -13,17 +13,26 @@ eureka:
 hystrix:
   command:
       default:
+        fallback:
+          isolation:
+            semaphore:
+              maxConcurrentRequests: 3000
         execution:
           isolation:
-            strategy: THREAD
+            semaphore:
+              maxConcurrentRequests: 3000
+            strategy: SEMAPHORE
             thread:
-                timeoutInMilliseconds: 41000
+              timeoutInMilliseconds: 400000
 
 ribbon:
 #  restclient:
 #    enabled: true
   ReadTimeout: 60000
   ConnectTimeout: 60000
+  MaxTotalHttpConnections: 5000
+  MaxHttpConnectionsPerHost: 5000
+  ActiveConnectionsLimit: 4000
   eureka:
     enabled: true
 
@@ -31,6 +40,8 @@ zuul:
   host:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
+  semaphore:
+    max-semaphores: 30000
 
 spring:
   main:
