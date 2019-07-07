@@ -22,10 +22,12 @@
         <module>account-service-instance2</module>
         <module>account-service-instance3</module>
         <module>account-service-oracle</module>
+        <module>account-service-oracle-instance2</module>
         <module>transaction-service</module>
         <module>transaction-service-instance2</module>
         <module>transaction-service-instance3</module>
         <module>transaction-service-oracle</module>
+        <module>transaction-service-oracle-instance2</module>
         <module>camel-service</module>
         <module>camel-service-instance2</module>
         <module>camel-service-instance3</module>

@@ -10,9 +10,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 @EnableEurekaClient
 @EnableDiscoveryClient
-public class AccountServiceOracleApplication {
+public class TransactionServiceOracleInstance2Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(AccountServiceOracleApplication.class, args);
+        SpringApplication.run(TransactionServiceOracleInstance2Application.class, args);
     }
+
 }
