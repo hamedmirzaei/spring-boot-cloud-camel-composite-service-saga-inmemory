@@ -56,7 +56,7 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .removeHeader(Exchange.HTTP_URI)
                 .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts/health")
                 .convertBodyTo(String.class)
-                .log("${body}")
+                //.log("${body}")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
@@ -68,7 +68,7 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .removeHeader(Exchange.HTTP_URI)
                 .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions/health")
                 .convertBodyTo(String.class)
-                .log("${body}")
+                //.log("${body}")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
@@ -98,63 +98,63 @@ public class CamelServiceApplication extends SpringRouteBuilder {
 
         from("direct:complete-transaction")
                 .setBody(header("tnx"))//.convertBodyTo(String.class)
-                .log("Start of direct:complete-transaction with body: ${body}")
+                //.log("Start of direct:complete-transaction with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
                 //.multicast().parallelProcessing()
-                .to("direct:complete-update-account")
-                .log("End of direct:complete-transaction with body: ${body}");
+                .to("direct:complete-update-account");
+                //.log("End of direct:complete-transaction with body: ${body}");
 
         from("direct:cancel-transaction")
-                .log("Start of direct:cancel-transaction with body: ${body}")
+                //.log("Start of direct:cancel-transaction with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
                 .to("direct:rollback-update-account")
-                .to("direct:rollback-add-transaction")
-                .log("End of direct:cancel-transaction with body: ${body}");
+                .to("direct:rollback-add-transaction");
+                //.log("End of direct:cancel-transaction with body: ${body}");
 
 
         from("direct:update-account")
-                .log("Start of direct:update-account with body: ${body}")
+                //.log("Start of direct:update-account with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.PUT))
                 .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts")
-                .convertBodyTo(String.class)
-                .log("End of direct:update-account with body: ${body}");
+                .convertBodyTo(String.class);
+                //.log("End of direct:update-account with body: ${body}");
 
         from("direct:complete-update-account")
                 .setBody(header("tnx")).convertBodyTo(String.class)
                 .unmarshal().json(JsonLibrary.Jackson, Transaction.class)
                 .marshal().json(JsonLibrary.Jackson)
-                .log("Start of direct:complete-update-account with body: ${body}")
+                //.log("Start of direct:complete-update-account with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.PUT))
                 .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts/complete")
-                .convertBodyTo(String.class)
-                .log("End of direct:complete-update-account with body: ${body}");
+                .convertBodyTo(String.class);
+                //.log("End of direct:complete-update-account with body: ${body}");
 
         from("direct:rollback-update-account")
                 .setBody(header("tnx")).convertBodyTo(String.class)
                 .unmarshal().json(JsonLibrary.Jackson, Transaction.class)
                 .marshal().json(JsonLibrary.Jackson)
-                .log("Start of direct:rollback-update-account with body: ${body}")
+                //.log("Start of direct:rollback-update-account with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.PUT))
                 .serviceCall(ACCOUNT_EUREKA_SERVICE_NAME + "/api/accounts/rollback")
-                .convertBodyTo(String.class)
-                .log("End of direct:rollback-update-account with body: ${body}");
+                .convertBodyTo(String.class);
+                //.log("End of direct:rollback-update-account with body: ${body}");
 
 
         from("direct:add-transaction")
-                .log("Start of direct:add-transaction with body: ${body}")
+                //.log("Start of direct:add-transaction with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
@@ -167,17 +167,17 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                         exchange.getIn().setHeader("random-x", new Random(System.currentTimeMillis()).nextInt(100));
                     }
                 })
-                .log("################################ random-x is: ${header[random-x]}")
+                //.log("################################ random-x is: ${header[random-x]}")
                 .choice()
                 .when(header("random-x").isGreaterThan(100))
                 .throwException(new RuntimeException("Random-x failure during direct:add-transaction"))
-                .end()
-                .log("End of direct:add-transaction with body: ${body}");
+                .end();
+                //.log("End of direct:add-transaction with body: ${body}");
 
         from("direct:rollback-add-transaction")
                 .setBody(header("tnx")).convertBodyTo(String.class)
                 .unmarshal().json(JsonLibrary.Jackson, Transaction.class)
-                .log("Start of direct:rollback-add-transaction with body: ${body}")
+                //.log("Start of direct:rollback-add-transaction with body: ${body}")
                 .removeHeader("CamelHttp*")
                 .removeHeader(Exchange.HTTP_PATH)
                 .removeHeader(Exchange.HTTP_URI)
@@ -185,8 +185,8 @@ public class CamelServiceApplication extends SpringRouteBuilder {
                 .setHeader("id", simple("${body.id}"))
                 .setBody(simple(""))
                 .serviceCall(TRANSACTION_EUREKA_SERVICE_NAME + "/api/transactions/${header[id]}")
-                .convertBodyTo(String.class)
-                .log("End of direct:rollback-add-transaction with body: ${body}");
+                .convertBodyTo(String.class);
+                //.log("End of direct:rollback-add-transaction with body: ${body}");
 
     }
 }
