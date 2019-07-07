@@ -1,7 +1,6 @@
 package spring.boot.cloud.camelservice.model.external;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Customer implements Serializable {
 

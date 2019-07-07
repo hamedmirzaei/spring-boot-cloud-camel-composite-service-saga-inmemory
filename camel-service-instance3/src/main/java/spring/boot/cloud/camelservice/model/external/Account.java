@@ -1,12 +1,6 @@
 package spring.boot.cloud.camelservice.model.external;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 public class Account implements Serializable {
 
