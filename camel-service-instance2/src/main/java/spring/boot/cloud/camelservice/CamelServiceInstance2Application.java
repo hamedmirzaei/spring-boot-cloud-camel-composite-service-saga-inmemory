@@ -76,7 +76,9 @@ public class CamelServiceInstance2Application extends SpringRouteBuilder {
                     }
                 })
                 .transform().simple("<html><head><title>Health Check</title></head><body>" +
-                "\nHealth Check From " + appName + ":" + portNumber + "\n${header[ahc]}\n${header[thc]}\n</body></html>");
+                "<br>Health Check From " + appName + ":" + portNumber +
+                "<br>${header[ahc]}" +
+                "<br>${header[thc]}<br></body></html>");
 
 
         rest().description("Camel rest service")

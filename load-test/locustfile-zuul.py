@@ -28,7 +28,7 @@ class UserBehavior(TaskSet):
     @task(1)
     def index(self):
         amount = random.randint(1000,50001) # between 1000 and 50000
-        #account_Id = random.randint(1,2001) # between 1 and 100
+        #UserBehavior.account_Id = random.randint(1,2001) # between 1 and 100
         UserBehavior.account_Id = UserBehavior.account_Id + 1
         if UserBehavior.account_Id == 2001:
             UserBehavior.account_Id = 1
