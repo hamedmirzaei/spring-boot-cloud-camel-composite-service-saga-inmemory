@@ -15,6 +15,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-cloud-camel-composite-service-saga-inmemory</name>
     <description>Demo project for Spring Boot + Spring Cloud + Apache Camel + Composite Service</description>
+    <packaging>pom</packaging>
 
     <modules>
         <module>eureka-server</module>

@@ -11,6 +11,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>camel-transfer-service</name>
     <description>Camel Transfer Between From Bank A to Bank B Service</description>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>

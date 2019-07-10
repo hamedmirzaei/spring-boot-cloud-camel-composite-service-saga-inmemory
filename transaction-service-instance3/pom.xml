@@ -11,6 +11,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>transaction-service-instance3</name>
     <description>Transaction Service Instance3</description>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>

@@ -12,6 +12,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>zuul-server</name>
     <description>Zuul Server</description>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>

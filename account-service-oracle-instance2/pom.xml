@@ -11,6 +11,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>account-service-oracle-instance2</name>
     <description>Account Service Oracle Instance2</description>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
